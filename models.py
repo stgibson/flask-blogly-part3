@@ -44,7 +44,7 @@ class Post(db.Model):
     """
         Schema for the posts table in the db. Contains id, the title for the
         post, the post's content, the date and time the post was created, and
-        a reference to the user who created the post
+        a reference to the user who created the post.
     """
     __tablename__ = "posts"
 
@@ -58,6 +58,8 @@ class Post(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
+    tags = db.relationship("Tag", secondary="posts_tags", backref="posts")
+
     @property
     def friendly_date(self):
         """
@@ -68,3 +70,32 @@ class Post(db.Model):
     def __repr__(self):
         return \
             f"<Post id={self.id} title={self.title} content={self.content} created_at={self.created_at} user_id={self.user_id}>"
+
+class Tag(db.Model):
+    """
+        Schema for the tags table in the db. Contains id and the name of the
+        tag.
+    """
+    __tablename__ = "tags"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
+    name = db.Column(db.Text, nullable=False, unique=True)
+
+    def __repr__(self):
+        return f"<Tag id={self.id} name={self.name}>"
+
+class PostTag(db.Model):
+    """
+        Schema for the posts_tags table, which joins the posts and tags tables
+        by there ids.
+    """
+    __tablename__ = "posts_tags"
+
+    post_id = \
+        db.Column(db.Integer, db.ForeignKey("posts.id"), primary_key=True)
+
+    tag_id = db.Column(db.Integer, db.ForeignKey("tags.id"), primary_key=True)
+
+    def __repr__(self):
+        return f"<PostTag post_id={self.post_id} tag_id={self.tag_id}>"
