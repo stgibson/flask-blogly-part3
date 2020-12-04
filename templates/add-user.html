@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}New User Form{% endblock %}
+
+{% block content %}
+  <h1>Create a user</h1>
+  <form>
+    <div class="form-group">
+      <label for="first-name">First Name</label>
+      <input
+        class="form-control"
+        name="first-name"
+        type="text"
+        placeholder="Enter a first name"
+      >
+    </div>
+    <div class="form-group">
+      <label for="last_name">Last Name</label>
+      <input 
+        class="form-control"
+        name="last-name"
+        type="text"
+        placeholder="Enter a last name"
+      >
+    </div>
+    <div class="form-group">
+      <label for="image_url">Image URL</label>
+      <input
+        class="form-control"
+        name="image-url"
+        type="url"
+        placeholder="Provide an image of this user"
+      >
+    </div>
+    <div class="d-flex justify-content-end">
+      <button
+        class="btn btn-outline-info mx-1"
+        formaction="/users"
+        formmethod="GET"
+      >
+        Cancel
+      </button>
+      <button
+        class="btn btn-success"
+        formaction="/users/new"
+        formmethod="POST"
+      >
+        Add
+      </button>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}User Detail Page{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-start">
+    <div class="row">
+      <div class="col-3">
+        {% if user.image_url %}
+          <img
+            class="img-fluid"
+            src="{{user.image_url}}"
+            alt="Your profile picture"
+          >
+        {% else %}
+          <img
+            class="img-fluid"
+            src="/static/placeholder.jpg"
+            alt="placeholder profile picture"
+          >
+        {% endif %}
+      </div>
+      <div class="col d-flex flex-column ml-5">
+        <h1>{{user.full_name}}</h1>
+        <form class="d-flex justify-content-start mb-3">
+          <button
+            class="btn btn-outline-primary"
+            formaction="/users"
+            formmethod="GET"
+          >
+            Cancel
+          </button>
+          <button
+            class="btn btn-primary mx-1"
+            formaction="/users/{{user.id}}/edit"
+            formmethod="GET"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-danger"
+            formaction="/users/{{user.id}}/delete"
+            formmethod="POST"
+          >
+            Delete
+          </button>
+        </form>
+        {% if user.posts %}
+          <h2>Posts</h2>
+          <ul>
+            {% for post in user.posts %}
+              <li><a href="/posts/{{post.id}}">{{post.title}}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        <div class="d-flex justify-content-start">
+          <a class="btn btn-primary" href="/users/{{user.id}}/posts/new">
+            Add Post
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Post Detail Page{% endblock %}
+
+{% block content %}
+  <h1>{{post.title}}</h1>
+  <p>{{post.content}}</p>
+  <i>By {{post.user.full_name}}</i>
+  <form class="d-flex justify-content-start mt-3">
+    <button
+      class="btn btn-outline-primary"
+      formaction="/users/{{post.user_id}}"
+      formmethod="GET"
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-primary mx-1"
+      formaction="/posts/{{post.id}}/edit"
+      formmethod="GET"
+    >
+      Edit
+    </button>
+    <button
+      class="btn btn-danger"
+      formaction="/posts/{{post.id}}/delete"
+      formmethod="POST"
+    >
+      Delete
+    </button>
+  </form>
+{% endblock %}
