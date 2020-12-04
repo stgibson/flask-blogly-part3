@@ -2,7 +2,7 @@
 
 from flask import Flask, render_template, redirect, request, flash
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User, Post
+from models import db, connect_db, User, Post, Tag, PostTag
 from sqlalchemy import desc
 
 app = Flask(__name__)
@@ -248,3 +248,14 @@ def delete_post(post_id):
     db.session.commit()
 
     return redirect(f"/users/{user.id}")
+
+@app.route("/tags")
+def show_tag_list():
+    """
+        Shows list of tags with a link back to the home page and a link to add
+        a new tag
+        rtype: str
+    """
+    tags = Tag.query.all()
+
+    return render_template("tags.html", tags=tags)
