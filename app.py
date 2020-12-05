@@ -279,3 +279,24 @@ def show_add_tag_form():
         rtype: str
     """
     return render_template("add-tag.html")
+
+@app.route("/tags/new", methods=["POST"])
+def add_tag():
+    """
+        Adds a new tag using the info the user submitted in the form
+        rtype: str
+    """
+    # first get the user's submitted info
+    name = request.form["name"]
+    # verify the user typed in a name
+    if not name:
+        flash("Please enter a name for the tag", "danger")
+        return redirect("/tags/new")
+    
+    # add the new tag to db
+    new_tag = Tag(name=name)
+    db.session.add(new_tag)
+    db.session.commit()
+
+    flash("The tag has been successfully created", "success")
+    return redirect("/tags")
