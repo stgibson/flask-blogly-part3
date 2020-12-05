@@ -259,3 +259,15 @@ def show_tag_list():
     tags = Tag.query.all()
 
     return render_template("tags.html", tags=tags)
+
+@app.route("/tags/<int:tag_id>")
+def show_tag(tag_id):
+    """
+        Shows the tag along with a list of posts with the tag, and links to
+        edit or delete the post and to go back to the list of posts
+        rtype: str
+    """
+    tag = Tag.query.get_or_404(tag_id)
+    posts = tag.posts
+
+    return render_template("tag-details.html", tag=tag, posts=posts)
