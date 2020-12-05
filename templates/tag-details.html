@@ -3,7 +3,7 @@
 {% block title %}Tag Detail Page{% endblock %}
 
 {% block content %}
-  <h1>{{tag.title}}</h1>
+  <h1>{{tag.name}}</h1>
   <ul>
     {% for post in posts %}
       <li><a href="/posts/{{post.id}}">{{post.title}}</a></li>
