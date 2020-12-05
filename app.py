@@ -271,3 +271,11 @@ def show_tag(tag_id):
     posts = tag.posts
 
     return render_template("tag-details.html", tag=tag, posts=posts)
+
+@app.route("/tags/new")
+def show_add_tag_form():
+    """
+        Shows the form to add a new tag
+        rtype: str
+    """
+    return render_template("add-tag.html")
