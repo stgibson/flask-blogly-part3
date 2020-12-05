@@ -263,8 +263,10 @@ def show_tag_list():
 @app.route("/tags/<int:tag_id>")
 def show_tag(tag_id):
     """
-        Shows the tag along with a list of posts with the tag, and links to
-        edit or delete the post and to go back to the list of posts
+        Shows the details of tag with id tag_id, along with a list of posts
+        with the tag, and links to edit or delete the post and to go back to
+        the list of posts
+        type tag_id: int
         rtype: str
     """
     tag = Tag.query.get_or_404(tag_id)
@@ -300,3 +302,14 @@ def add_tag():
 
     flash("The tag has been successfully created", "success")
     return redirect("/tags")
+
+@app.route("/tags/<int:tag_id>/edit")
+def show_edit_tag_form(tag_id):
+    """
+        Shows the form to edit tag with id tag_id
+        type tag_id: int
+        rtype: str
+    """
+    tag = Tag.query.get_or_404(tag_id)
+
+    return render_template("edit-tag.html", tag=tag)
