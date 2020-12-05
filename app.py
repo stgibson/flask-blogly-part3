@@ -313,3 +313,27 @@ def show_edit_tag_form(tag_id):
     tag = Tag.query.get_or_404(tag_id)
 
     return render_template("edit-tag.html", tag=tag)
+
+@app.route("/tags/<int:tag_id>/edit", methods=["POST"])
+def edit_tag(tag_id):
+    """
+        Edits the tag with id tag_id using the info the user submitted in the
+        form
+        type tag_id: int
+        rtype: str
+    """
+    # first get the info submitted by the user
+    name = request.form["name"]
+    # verify the user submitted a name
+    if not name:
+        flash("Please enter a name for the tag", "danger")
+        return redirect(f"/tags/{tag_id}/edit")
+
+    # edit the tag
+    tag = Tag.query.get_or_404(tag_id)
+    tag.name = name
+    db.session.add(tag)
+    db.session.commit()
+
+    flash("The tag has been successfully edited", "success")
+    return redirect("/tags")
