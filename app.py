@@ -155,8 +155,9 @@ def show_add_post_form(user_id):
         rtype: str
     """
     user = User.query.get_or_404(user_id)
+    tags = Tag.query.all()
 
-    return render_template("add-post.html", user=user)
+    return render_template("add-post.html", user=user, tags=tags)
 
 @app.route("/users/<int:user_id>/posts/new", methods=["POST"])
 def add_post(user_id):
