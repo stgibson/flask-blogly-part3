@@ -22,6 +22,12 @@
         rows="3"
       >{{post.content}}</textarea>
     </div>
+    {% for tag in tags %}
+      <div class="form-group my-0">
+        <input name="{{tag.name}}" type="checkbox">
+        <label for="{{tag.name}}">{{tag.name}}</label>
+      </div>
+    {% endfor %}
     <div class="d-flex justify-content-end">
       <a class="btn btn-outline-info mx-1" href="/posts/{{post.id}}">
         Cancel
