@@ -5,7 +5,15 @@
 {% block content %}
   <h1>{{post.title}}</h1>
   <p>{{post.content}}</p>
-  <i>By {{post.user.full_name}}</i>
+  <p>
+    <i>By {{post.user.full_name}} on {{post.friendly_date}}</i>
+  </p>
+  <b>Tags:</b>
+  <span>
+    {% for tag in tags %}
+      <div class="badge badge-primary">{{tag.name}}</div>
+    {% endfor %}
+  </span>
   <form class="d-flex justify-content-start mt-3">
     <button
       class="btn btn-outline-primary"
