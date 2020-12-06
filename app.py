@@ -173,7 +173,7 @@ def add_post(user_id):
     title = request.form["title"]
     content = request.form["content"]
     
-    # determine how many tags the user checked
+    # get tags the user checked
     tags = Tag.query.all()
     tag_ids_selected = []
     for tag in tags:
@@ -248,6 +248,32 @@ def edit_post(post_id):
     post.title = title
     post.content = content
     db.session.add(post)
+    db.session.commit()
+
+    # update tags for post
+    tags = Tag.query.all()
+    post_tags = post.tags
+    for tag in tags:
+        # if checked and wasn't checked before, add tag to post
+        if request.form.get(tag.name, None):
+            tag_added = True
+            for post_tag in post_tags:
+                # if post already had tag, tag was not added
+                if tag.id == post_tag.id:
+                    tag_added = False
+            if tag_added:
+                post_tag = PostTag(post_id=post.id, tag_id=tag.id)
+                db.session.add(post_tag)
+        # if not checked and was before, remove tag from post
+        else:
+            tag_removed = False
+            for post_tag in post_tags:
+                # if post used to have tag, tag was removed
+                if tag.id == post_tag.id:
+                    tag_removed = True
+            if tag_removed:
+                post_tag = PostTag.query.filter_by(post_id=post.id, tag_id=tag.id).one()
+                db.session.delete(post_tag)
     db.session.commit()
 
     flash("Post has been successfully updated", "success")
