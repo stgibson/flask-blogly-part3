@@ -172,6 +172,13 @@ def add_post(user_id):
     # get post details from form
     title = request.form["title"]
     content = request.form["content"]
+    
+    # determine how many tags the user checked
+    tags = Tag.query.all()
+    tag_ids_selected = []
+    for tag in tags:
+        if request.form.get(tag.name, None):
+            tag_ids_selected.append(tag.id)
 
     # verify user submitted both title and content
     if not title or not content:
@@ -181,6 +188,12 @@ def add_post(user_id):
     # create post and add to db
     post = Post(title=title, content=content, user_id=user_id)
     db.session.add(post)
+    db.session.commit()
+
+    # add tags to post
+    for tag_id in tag_ids_selected:
+        post_tag = PostTag(post_id=post.id, tag_id=tag_id)
+        db.session.add(post_tag)
     db.session.commit()
 
     flash("Post has been successfully created", "success")
