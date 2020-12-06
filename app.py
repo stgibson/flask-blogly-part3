@@ -222,8 +222,10 @@ def show_post_edit_form(post_id):
     """
     post = Post.query.get_or_404(post_id)
     tags = Tag.query.all()
+    post_tag_ids = [tag.id for tag in post.tags]
 
-    return render_template("edit-post.html", post=post, tags=tags)
+    return render_template("edit-post.html", post=post, tags=tags, \
+        post_tag_ids=post_tag_ids)
 
 @app.route("/posts/<int:post_id>/edit", methods=["POST"])
 def edit_post(post_id):

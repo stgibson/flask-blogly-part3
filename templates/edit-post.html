@@ -24,7 +24,11 @@
     </div>
     {% for tag in tags %}
       <div class="form-group my-0">
-        <input name="{{tag.name}}" type="checkbox">
+        {% if tag.id in post_tag_ids %}
+          <input name="{{tag.name}}" type="checkbox" checked="true">
+        {% else %}
+          <input name="{{tag.name}}" type="checkbox">
+        {% endif %}
         <label for="{{tag.name}}">{{tag.name}}</label>
       </div>
     {% endfor %}
