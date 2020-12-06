@@ -288,7 +288,8 @@ def delete_post(post_id):
     """
     # first determine which user created the post, to go to the user's page
     user = Post.query.get_or_404(post_id).user
-    Post.query.filter_by(id=post_id).delete()
+    post = Post.query.filter_by(id=post_id).one()
+    db.session.delete(post)
     db.session.commit()
 
     return redirect(f"/users/{user.id}")
